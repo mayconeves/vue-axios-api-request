@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Image</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-masonry@0.11.3/dist/vue-masonry-plugin-window.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-masonry transition-duration="0.3s" item-selector=".item" style="margin: 0 auto; text-align: center;">
+            <div v-masonry-tile class="item" v-for="info in infos">
+                <img :src="info" alt="" style="max-width: 180px;">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var VueMasonryPlugin = window["vue-masonry-plugin"].VueMasonryPlugin
+    Vue.use(VueMasonryPlugin)
+
+    new Vue({
+        el: '#app',
+        data(){
+            return {
+                infos: null
+            }
+        },
+        mounted () {
+            axios
+                .get('https://dog.ceo/api/breeds/image/random/50')
+                .then(response => (this.infos = response.data.message))
+        }
+    })
+</script>
+</html>
